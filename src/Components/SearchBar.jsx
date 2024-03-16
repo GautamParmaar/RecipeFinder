@@ -33,9 +33,10 @@ const SearchBar = () => {
         onChange={(e) => setSearchInputForCity(e.target.value)}
       /> */}
       <input
+        id="searchbar"
         type="submit"
         value={"Search"}
-        className=" bg-blue-700 rounded-lg p-2 -ml-20 text-lg text-white font-thin active:opacity-70 hover:bg-blue-600"
+        className=" searchbar bg-blue-700 rounded-lg p-2 -ml-20 text-lg text-white font-thin active:opacity-70 hover:bg-blue-600"
         onClick={handleSearch}
       />
     </div>
