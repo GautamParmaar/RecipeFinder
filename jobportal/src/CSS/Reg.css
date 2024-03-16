@@ -18,11 +18,12 @@ select {
   color: #4c4c4c;
 }
 
-p {
+.pcls{
   font-size: 12px;
   width: 150px;
   display: inline-block;
   margin-left: 18px;
+  margin-top: -30px;
 }
 h1 {
   font-size: 32px;
@@ -172,7 +173,7 @@ a.button {
   -moz-box-shadow: 0 3px rgba(58,87,175,.75); 
   box-shadow: 0 3px rgba(58,87,175,.75);
   transition: all 0.1s linear 0s; 
-  top: 0px;
+  top: -32px;
   position: relative;
 }
 
