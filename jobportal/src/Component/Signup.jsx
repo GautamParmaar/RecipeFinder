@@ -60,7 +60,7 @@ function RegistrationForm() {
     <input type="radio" value="None" id="female" name="gender" />
     <label for="female" class="radio">Female</label>
    </div> 
-   <p>By clicking Register, you agree on our <a href="#">terms and condition</a>.</p>
+   <p class="pcls">By clicking Register, you agree on our <a href="#">terms and condition</a>.</p>
    <a href="#" class="button">Register</a>
   </form>
 </div>

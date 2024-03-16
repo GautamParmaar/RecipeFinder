@@ -14,11 +14,8 @@
     "mdb-react-ui-kit": "^7.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-<<<<<<< HEAD
     "react-icons": "^5.0.1",
-=======
     "react-router-dom": "^6.22.3",
->>>>>>> 1ca5433da51eee0da8c84902c467fec1e17a74ce
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
