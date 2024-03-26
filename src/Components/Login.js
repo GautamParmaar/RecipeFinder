@@ -1,16 +1,25 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from 'react-router-dom'
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth,  } from "../Components/Config"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { ToastContainer, toast } from 'react-toastify';
+
 import "./Login.css";
 function Login() {
 
+  const navigate=useNavigate();
+
     
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [values, setValues] = useState({
+    email: '',
+    password: '',
+
+
+
+  })
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [isValidEmail, setIsValidEmail] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
 
   
   
@@ -19,58 +28,38 @@ function Login() {
 
  
 
-  const handleEmailChange = (e) => {
-    const inputEmail = e.target.value;
-    setEmail(inputEmail);
+ 
 
-    // Check if the input email is a valid email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValid = emailRegex.test(inputEmail);
-    setIsValidEmail(isValid);
-
-    // Update error message
-    setErrorMessage(isValid ? "" : "Invalid email address");
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-  
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      // const response = await fetch("http://localhost:8080/login"
-      const response = await fetch("https://betting-backend-beta.vercel.app/login"
-
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(values);
+    signInWithEmailAndPassword(auth, values.email, values.password)
+      .then(async (res) => {
+        const user = res.user;
+        navigate("/");
+        toast.success('You are now logged in', {
       
-      , {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
+      
 
-      if (response.ok) {
-        // Handle successful login on the client side (e.g., redirect to home page)
-        console.log("Login successful!");
-        setErrorMessage("");
-      } else {
-        const data = await response.json();
-        setErrorMessage(data.message || "Login failed");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-      setErrorMessage("Login failed. Please try again.");
-    }
-  };
-   
-    
+        console.log(user);
+        
+        
+
+      })
+      .catch((error) => {
+        console.error("Authentication error:", error);
+        
+      });
+  }
   
   return (
     <div className="container5 forms">
@@ -82,10 +71,11 @@ function Login() {
             <input
               type="email"
               placeholder="Email"
-              className={`input ${isValidEmail ? "" : "invalid"}`}
-              value={email}
-              onChange={handleEmailChange}
-            />
+              className={`input ${'isValidEmail' ? "" : "invalid"}`}
+              
+              onChange={(events) => {
+                setValues((prev) => ({ ...prev, email: events.target.value }))
+              }}            />
            
           </div>
 
@@ -94,16 +84,16 @@ function Login() {
                   type={passwordVisible ? "text" : "password"}
                   placeholder="Password"
                   className="password"
-                  value={password}
-                  onChange={handlePasswordChange}
-                />
+                  onChange={(events) => {
+                    setValues((prev) => ({ ...prev, password: events.target.value }))
+                  }}                />
                 {passwordVisible ? (
-                  <VisibilityIcon
+                  <VisibilityIcon fontSize='large'
                     className="eye-icon"
                     onClick={() => setPasswordVisible(!passwordVisible)}
                   />
                 ) : (
-                  <VisibilityOffIcon
+                  <VisibilityOffIcon fontSize='large'
                     className="eye-icon"
                     onClick={() => setPasswordVisible(!passwordVisible)}
                   />
@@ -111,17 +101,17 @@ function Login() {
               </div>
 
           <div className="form-link">
-            <Link className="forgot-pass" to="/ForgetPassword">
-              Forgot password?
-            </Link>
+            
           </div>
-          {isValidEmail ? null : (
-              <div className="error-message">{errorMessage}</div>
+          {'isValidEmail' ? null : (
+              <div className="error-message"></div>
             )}
 
           <div className="field button-field">
-            <button type="submit">Login</button>
+            <button onClick={handleSubmit} type="submit">Login</button>
           </div>
+          <ToastContainer/>
+
         </form>
 
         <div className="form-link">
