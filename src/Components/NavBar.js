@@ -14,17 +14,32 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from './Config';
 
 
 const drawerWidth = 240;
 const navItems = ['Home', 'About', 'Contact'];
-function NavBar() {
+function NavBar({ user }) {
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const navigate=useNavigate();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
+
+  const handleSignOut=()=>{
+    signOut(auth).then(val=>{
+      console.log('val')
+      navigate("/login")
+      
+    })
+    } 
+    
+
+
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
@@ -33,13 +48,39 @@ function NavBar() {
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem disablePadding sx={{ justifyContent: 'center' }}>
+          <Button component={RouterLink} to="/" sx={{ color: 'inherit', textDecoration: 'none' }}>
+            <ListItemText primary='Home' />
+          </Button>
+        </ListItem>
+
+        <ListItem disablePadding sx={{ justifyContent: 'center' }}>
+          <Button component={RouterLink} to="/about" sx={{ color: 'inherit', textDecoration: 'none' }}>
+            <ListItemText primary='About' />
+          </Button>
+        </ListItem>
+
+        <ListItem disablePadding sx={{ justifyContent: 'center' }}>
+          <Button component={RouterLink} to="/contact" sx={{ color: 'inherit', textDecoration: 'none' }}>
+            <ListItemText primary='Contact' />
+          </Button>
+        </ListItem>
+
+        <ListItem disablePadding sx={{ justifyContent: 'center' }}>
+          {user ? (
+            <Button component={RouterLink} to="/" onClick={handleSignOut} sx={{ color: 'inherit', textDecoration: 'none' }}>
+              <ListItemText primary='Logout' />
+            </Button>
+          ) : (
+            <Button component={RouterLink} to="/login" sx={{ color: 'inherit', textDecoration: 'none' }}>
+              <ListItemText primary='Login' />
+            </Button>
+          )}
+        </ListItem>
+{/* above code is for phone */}
+
+
+        {/* ))} */}
       </List>
     </Box>
   );
@@ -70,11 +111,38 @@ function NavBar() {
               MUI
             </Typography>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              {navItems.map((item) => (
-                <Button key={item} sx={{ color: '#fff' }}>
-                  {item}
+
+              <Button component={RouterLink} to="/" sx={{ color: '#fff' }}>
+                Home
+              </Button>
+
+            </Box>
+
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+
+              <Button component={RouterLink} to="/about" sx={{ color: '#fff' }}>
+                About us
+              </Button>
+
+            </Box>
+
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+
+              <Button component={RouterLink} to="/contact" sx={{ color: '#fff' }}>
+                Contact
+              </Button>
+
+            </Box>
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+              {user ? (
+                <Button component={RouterLink} onClick={handleSignOut} sx={{ color: '#fff' }}>
+                  Logout
                 </Button>
-              ))}
+              ) : (
+                <Button component={RouterLink} to="/login" sx={{ color: '#fff' }}>
+                  Login
+                </Button>
+              )}
             </Box>
           </Toolbar>
         </AppBar>

@@ -10,6 +10,8 @@ import "./Login.css";
 function Login() {
 
   const navigate=useNavigate();
+  const [redirecting, setRedirecting] = useState(false);
+
 
     
   const [values, setValues] = useState({
@@ -36,7 +38,6 @@ function Login() {
     signInWithEmailAndPassword(auth, values.email, values.password)
       .then(async (res) => {
         const user = res.user;
-        navigate("/");
         toast.success('You are now logged in', {
       
           position: "top-center",
@@ -51,15 +52,37 @@ function Login() {
       
 
         console.log(user);
+        setRedirecting(true);
+
+        // navigate("/sign");
+
         
         
 
       })
       .catch((error) => {
         console.error("Authentication error:", error);
+        toast.error(error.message, {
+      
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "light",
+          });
         
       });
   }
+
+    // Use a conditional redirect to delay the navigation
+    if (redirecting) {
+      setTimeout(() => {
+        navigate('/signup');
+      }, 3000); // Adjust the delay time as needed
+    }
   
   return (
     <div className="container5 forms">
@@ -99,6 +122,15 @@ function Login() {
                   />
                 )}
               </div>
+
+              <div style={{marginBottom:'-9px'}} className="form-link">
+          <span>
+            Forgot Password?{" "}
+            <Link className="link signup-link" to="/ForgotPassword">
+              Click here
+            </Link>
+          </span>
+        </div>
 
           <div className="form-link">
             
