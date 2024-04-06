@@ -6,6 +6,8 @@ import Signup from './Components/Signup';
 import { useEffect, useState } from 'react';
 import { auth } from './Components/Config';
 import ForgotPassword from './Components/ForgotPassword';
+import ProfilePage from './Components/ProfilePage';
+import SearchRecipe from './Components/SearchRecipe';
 
 
 function App() {
@@ -37,6 +39,8 @@ function App() {
 
         <Route path='/signup'     element={<Signup/>}/>
         <Route path='/ForgotPassword' element={<ForgotPassword/>}/>
+        <Route path='/Profile' element={<ProfilePage user={user}/>} />
+        <Route path='/Search' element={<SearchRecipe/>} />
 
  
 

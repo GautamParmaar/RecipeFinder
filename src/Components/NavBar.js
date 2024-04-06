@@ -77,6 +77,20 @@ function NavBar({ user }) {
             </Button>
           )}
         </ListItem>
+
+        {user ? (
+        <ListItem disablePadding sx={{ justifyContent: 'center' }}>
+          <Button component={RouterLink} to="/profile" sx={{ color: 'inherit', textDecoration: 'none' }}>
+            <ListItemText primary="Profile" />
+          </Button>
+        </ListItem>
+      ) : (
+        <ListItem disablePadding sx={{ justifyContent: 'center' }}>
+          <Button component={RouterLink} to="/login" sx={{ color: 'inherit', textDecoration: 'none' }}>
+            <ListItemText primary="Profile" />
+          </Button>
+        </ListItem>
+      )}
 {/* above code is for phone */}
 
 
@@ -141,6 +155,18 @@ function NavBar({ user }) {
               ) : (
                 <Button component={RouterLink} to="/login" sx={{ color: '#fff' }}>
                   Login
+                </Button>
+              )}
+            </Box>
+
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+              {user ? (
+                <Button component={RouterLink} to='/profile'  sx={{ color: '#fff' }}>
+                  Profile
+                </Button>
+              ) : (
+                <Button component={RouterLink} to="/login" sx={{ color: '#fff' }}>
+                  Profile
                 </Button>
               )}
             </Box>
