@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
-import "./Login.css";
 
 
 function ForgotPassword() {

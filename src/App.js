@@ -8,6 +8,8 @@ import { auth } from './Components/Config';
 import ForgotPassword from './Components/ForgotPassword';
 import ProfilePage from './Components/ProfilePage';
 import SearchRecipe from './Components/SearchRecipe';
+import Home from './Components/Home';
+import About from './Components/About';
 
 
 function App() {
@@ -34,8 +36,10 @@ function App() {
       <NavBar user={user} />
 
       <Routes>
+        <Route path='/' element={<><Home/> <About/></>}/>
 
         <Route path='/login'     element={<Login/>}/>
+        <Route path='/about' element={<About/>} />
 
         <Route path='/signup'     element={<Signup/>}/>
         <Route path='/ForgotPassword' element={<ForgotPassword/>}/>

@@ -37,6 +37,12 @@ function NavBar({ user }) {
       
     })
     } 
+
+    const disableHoverStyles = {
+      '&:hover': {
+        color: 'inherit' // Keep the color unchanged on hover
+      }
+    };
     
 
 
@@ -119,14 +125,14 @@ function NavBar({ user }) {
             </IconButton>
             <Typography
               variant="h6"
-              component="div"
-              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+              component="div" 
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' ,...disableHoverStyles} }}
             >
-              MUI
+              MUI 
             </Typography>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
 
-              <Button component={RouterLink} to="/" sx={{ color: '#fff' }}>
+              <Button component={RouterLink} to="/" sx={{ color: '#fff',...disableHoverStyles }}>
                 Home
               </Button>
 
@@ -134,38 +140,45 @@ function NavBar({ user }) {
 
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
 
-              <Button component={RouterLink} to="/about" sx={{ color: '#fff' }}>
+              <Button component={RouterLink} to="/about" sx={{ color: '#fff',...disableHoverStyles }}>
                 About us
               </Button>
 
             </Box>
 
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            <Box sx={{ display: { xs: 'none', sm: 'block',...disableHoverStyles } }}>
 
-              <Button component={RouterLink} to="/contact" sx={{ color: '#fff' }}>
+              <Button component={RouterLink} to="/contact" sx={{ color: '#fff',...disableHoverStyles }}>
                 Contact
               </Button>
 
             </Box>
+            <Box sx={{ display: { xs: 'none', sm: 'block',...disableHoverStyles } }}>
+
+<Button component={RouterLink} to="/search" sx={{ color: '#fff',...disableHoverStyles }}>
+  Recipe
+</Button>
+
+</Box>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
               {user ? (
-                <Button component={RouterLink} onClick={handleSignOut} sx={{ color: '#fff' }}>
+                <Button component={RouterLink} onClick={handleSignOut} sx={{ color: '#fff',...disableHoverStyles }}>
                   Logout
                 </Button>
               ) : (
-                <Button component={RouterLink} to="/login" sx={{ color: '#fff' }}>
+                <Button component={RouterLink} to="/login" sx={{ color: '#fff',...disableHoverStyles }}>
                   Login
                 </Button>
               )}
             </Box>
 
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            <Box sx={{ display: { xs: 'none', sm: 'block',...disableHoverStyles } }}>
               {user ? (
-                <Button component={RouterLink} to='/profile'  sx={{ color: '#fff' }}>
+                <Button component={RouterLink} to='/profile'  sx={{ color: '#fff',...disableHoverStyles }}>
                   Profile
                 </Button>
               ) : (
-                <Button component={RouterLink} to="/login" sx={{ color: '#fff' }}>
+                <Button component={RouterLink} to="/login" sx={{ color: '#fff' ,...disableHoverStyles}}>
                   Profile
                 </Button>
               )}

@@ -27,6 +27,7 @@ export default function ProfilePage({user}) {
   const [userEmail,setUserEmail]=useState("")
   const [userPhoneNo,setUserPhoneNo]=useState("")
   const [userUID,setUserUID]=useState("")
+  
   useEffect(()=>{
    auth.onAuthStateChanged(async(user)=>{
      if(user){
@@ -67,7 +68,7 @@ export default function ProfilePage({user}) {
 
         <MDBRow>
           <MDBCol lg="4">
-            {/* <MDBCard className="mb-4">
+            <MDBCard className="mb-4">
               <MDBCardBody className="text-center">
                 <MDBCardImage
                   src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
@@ -75,14 +76,14 @@ export default function ProfilePage({user}) {
                   className="rounded-circle"
                   style={{ width: '150px' }}
                   fluid />
-                <p className="text-muted mb-1">Full Stack Developer</p>
+                <p className="text-muted mb-1">{userName}</p>
                 <p className="text-muted mb-4">Bay Area, San Francisco, CA</p>
                 <div className="d-flex justify-content-center mb-2">
-                  <MDBBtn>Follow</MDBBtn>
-                  <MDBBtn outline className="ms-1">Message</MDBBtn>
+                  {/* <MDBBtn>Follow</MDBBtn> */}
+                  {/* <MDBBtn outline className="ms-1">Message</MDBBtn> */}
                 </div>
               </MDBCardBody>
-            </MDBCard> */}
+            </MDBCard>
 
             {/* <MDBCard className="mb-4 mb-lg-0">
               <MDBCardBody className="p-0">

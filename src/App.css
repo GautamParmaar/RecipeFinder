@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* input search bar
+ */
+ .inputSearch{
+  border-top-left-radius: 28px;
+  border-bottom-left-radius: 28px;
+  border-top-right-radius: 0px;
+ }
+
+ .cardCSS{
+ }
