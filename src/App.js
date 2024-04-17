@@ -16,7 +16,8 @@ function App() {
   
 
   const [user,setUser]=useState();
-
+  console.log(  process.env.REACT_APP_API_KEY
+,"hello"  )
   useEffect(()=>{
     auth.onAuthStateChanged(user=>{
       if(user){

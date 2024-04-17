@@ -10,7 +10,6 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -20,7 +19,6 @@ import { auth } from './Config';
 
 
 const drawerWidth = 240;
-const navItems = ['Home', 'About', 'Contact'];
 function NavBar({ user }) {
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -50,7 +48,7 @@ function NavBar({ user }) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+        Recipe Finder
       </Typography>
       <Divider />
       <List>
@@ -67,10 +65,16 @@ function NavBar({ user }) {
         </ListItem>
 
         <ListItem disablePadding sx={{ justifyContent: 'center' }}>
+          <Button component={RouterLink} to="/search" sx={{ color: 'inherit', textDecoration: 'none' }}>
+            <ListItemText primary='Recipe' />
+          </Button>
+        </ListItem>
+
+        {/* <ListItem disablePadding sx={{ justifyContent: 'center' }}>
           <Button component={RouterLink} to="/contact" sx={{ color: 'inherit', textDecoration: 'none' }}>
             <ListItemText primary='Contact' />
           </Button>
-        </ListItem>
+        </ListItem> */}
 
         <ListItem disablePadding sx={{ justifyContent: 'center' }}>
           {user ? (
@@ -128,7 +132,7 @@ function NavBar({ user }) {
               component="div" 
               sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' ,...disableHoverStyles} }}
             >
-              MUI 
+              Recipe Finder 
             </Typography>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
 
@@ -146,13 +150,13 @@ function NavBar({ user }) {
 
             </Box>
 
-            <Box sx={{ display: { xs: 'none', sm: 'block',...disableHoverStyles } }}>
+            {/* <Box sx={{ display: { xs: 'none', sm: 'block',...disableHoverStyles } }}>
 
               <Button component={RouterLink} to="/contact" sx={{ color: '#fff',...disableHoverStyles }}>
                 Contact
               </Button>
 
-            </Box>
+            </Box> */}
             <Box sx={{ display: { xs: 'none', sm: 'block',...disableHoverStyles } }}>
 
 <Button component={RouterLink} to="/search" sx={{ color: '#fff',...disableHoverStyles }}>

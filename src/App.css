@@ -48,3 +48,80 @@
 
  .cardCSS{
  }
+
+ /* searchBar */
+ @media screen and (max-width: 786px) {
+ .searchBar{
+  width: 30px;
+ }
+}
+
+.inputButton{
+padding-top: 15px;
+padding-bottom: 15px;
+padding-right: 14px;
+padding-left: 8px;
+}
+
+.inputSearch{
+  width: 840px;
+}
+
+.search-container2 {
+  /* margin-top: -10px; */
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.search-container2 input[type="text"] {
+  width: 350px;
+  height: 55px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  color: black;
+  /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); Add shadow to the input */
+}
+
+.search-container2 button {
+  height: 55px;
+  width: 60px;
+  /* margin-left: -5px; */
+  background: #141617;
+  border: 0;
+  color: #fff;
+  font-size: 17px;
+  border-top-right-radius: 30px;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); Add shadow to the button */
+}
+
+@media (max-width: 768px) {
+ 
+  
+  .search-container2 button {
+    margin-top: auto;
+    width: 20%;
+    
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); Add shadow to the button */
+  }
+
+  .search-container2 {
+    width: 100%; /* Set the width to 100% on mobile screens */
+    margin: 0; /* Remove any margin to take up the full width */
+    margin-top: -30px;
+  }
+
+  .search-container2 input[type="text"] {
+    width: 80%; /* Set the input width to 100% on mobile screens */
+  }
+  
+ 
+
+}
+@media (min-width: 768px) {
+  .search-container2 {
+    margin-left: 80px;
+  }
+  
+  
+
+}

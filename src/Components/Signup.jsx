@@ -169,7 +169,7 @@ function SignUp() {
         <form onSubmit={handleSubmit}>
 
         <div className="field input-field">
-            <input
+            <input style={{width:'100%',backgroundColor:''}}
               type="text"
               placeholder="Your Name"
              
