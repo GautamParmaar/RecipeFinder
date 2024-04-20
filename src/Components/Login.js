@@ -22,6 +22,8 @@ function Login() {
 
   })
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+
 
   
   
@@ -34,53 +36,42 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(values);
-    signInWithEmailAndPassword(auth, values.email, values.password)
-      .then(async (res) => {
-        const user = res.user;
-        toast.success('You are now logged in', {
-      
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          });
-      
+    setLoading(true);
 
-        console.log(user);
-        setRedirecting(true);
+    // Show "Please wait" toast message
+    const waitToastId = toast.promise(
+      signInWithEmailAndPassword(auth, values.email, values.password),
+      {
+        pending: 'Please wait...',
+        success: 'You are now logged in',
+        error: 'Authentication failed. Please check your credentials.',
+        autoClose: 3000,
+        // position: "top-center",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "light",
+        position: "top-center"
+      }
+    );
 
-        // navigate("/sign");
-
-        
-        
-
-      })
-      .catch((error) => {
-        console.error("Authentication error:", error);
-        toast.error(error.message, {
-      
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          progress: undefined,
-          theme: "light",
-          });
-        
-      });
-  }
-
+    // Handle promise resolution
+    waitToastId.then(() => {
+      setLoading(false);
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
+    }).catch((error) => {
+      setLoading(false);
+      console.error("Authentication error:", error);
+    });
+  };
     // Use a conditional redirect to delay the navigation
     if (redirecting) {
       setTimeout(() => {
-        navigate('/signup');
+        navigate('/');
       }, 3000); // Adjust the delay time as needed
     }
   
@@ -140,9 +131,9 @@ function Login() {
             )}
 
           <div className="field button-field">
-            <button onClick={handleSubmit} type="submit">Login</button>
+            <button  onClick={handleSubmit} >Login</button>
           </div>
-          <ToastContainer/>
+          <ToastContainer position="top-center"/>
 
         </form>
 

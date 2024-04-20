@@ -16,6 +16,10 @@ function SignUp() {
  
  
   const navigate=useNavigate();
+  const [redirecting, setRedirecting] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+
 
 
   // for backend
@@ -26,120 +30,70 @@ function SignUp() {
  }) 
 
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+ const handleSubmit = async (event) => {
+  event.preventDefault();
+  setLoading(true);
 
-    // Custom validation checks
-    if (!values.name ||  !values.email || !values.pass) {
-      toast.error('Please fill in all required fields.', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
-      return;
-    }
-
-    if (values.pass !== values.confirmPass) {
-      toast.error('Password and Confirm Password do not match.', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
-      return;
-    }
-
-    
-    // Mobile number validation using regex (10 digits)
-   
-
-    // If all validation checks pass, continue with form submission
-    createUserWithEmailAndPassword(auth, values.email, values.pass)
-      .then(async (res) => {
-        const user = res.user;
-        setTimeout(() => {
-          console.log('delayed')
-          navigate("/");
-
-          toast.success('Account Created successfully', {
-      
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            });
-        }, 1000);
-
-        await updateProfile(user, {
-          displayName: values.name,
-        }).catch((error) => {
-          // Handle profile update error
-          toast.error(error.message, {
-            position: 'top-center',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'light',
-          });
-        });
-
-        try {
-          const docRef = await setDoc(doc(db, 'users', user.uid), {
-            uid: user.uid,
-            name: user.displayName,
-            email: user.email,
-          });
-
-          setTimeout(() => {
-            console.log('delayed',docRef);
-            toast.success('Account Created successfully', {
-      
-              position: "top-center",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-              });
-         
-          }, 1000); // Adjust the delay as needed
-        } catch (e) {
-          console.error('Error adding document: ', e);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err.message, {
-          position: 'top-center',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light',
-        });
-      });
+  // Input validation checks
+  if (!values.name.trim()) {
+    toast.error('Please enter your name.', { position: 'top-center' });
+    setLoading(false);
+    return;
   }
 
+  if (!values.email.trim() || !/^\S+@\S+\.\S+$/.test(values.email.trim())) {
+    toast.error('Please enter a valid email address.', { position: 'top-center' });
+    setLoading(false);
+    return;
+  }
+
+  if (values.pass.length < 6) {
+    toast.error('Password must be at least 6 characters long.', { position: 'top-center' });
+    setLoading(false);
+    return;
+  }
+
+  if (values.pass !== values.confirmPass) {
+    toast.error('Password and Confirm Password do not match.', { position: 'top-center' });
+    setLoading(false);
+    return;
+  }
+
+  // Attempt user creation
+  const createUserPromise = createUserWithEmailAndPassword(auth, values.email, values.pass);
+
+  const waitToastId = toast.promise(createUserPromise, {
+    pending: 'Please wait...',
+    success: 'Account Created successfully',
+    error: (error) => `Error: ${error.message}`,
+    autoClose: 3000,
+    position: "top-center",
+    hideProgressBar: false,
+    closeOnClick: true,
+    progress: undefined,
+    theme: "dark",
+  });
+
+  try {
+    const userCredential = await createUserPromise;
+    const user = userCredential.user;
+    await updateProfile(user, { displayName: values.name });
+    await setDoc(doc(db, 'users', user.uid), { uid: user.uid, name: user.displayName, email: user.email });
+  } catch (error) {
+    console.error("Error:", error);
+  } finally {
+    setLoading(false);
+    toast.dismiss(waitToastId);
+    setTimeout(() => {
+      navigate('/');
+    }, 3000);
+  }
+};
+  if (redirecting) {
+    setTimeout(() => {
+      navigate('/');
+    }, 3000); // Adjust the delay time as needed
+  }
 
 
   // 
@@ -229,14 +183,13 @@ function SignUp() {
             )}
 
           <div className="field button-field">
-            <button onClick={handleSubmit} type="submit">Signup</button>
+            <button onClick={handleSubmit} >Signup</button>
           </div>
-          <ToastContainer/>
-          <ToastContainer/>
+          <ToastContainer position="top-center"/>
+          <ToastContainer position="top-center"/>
 
         </form>
-        <ToastContainer/>
-          <ToastContainer/>
+        <ToastContainer position="top-center"/>
 
         <div className="form-link">
           <span>

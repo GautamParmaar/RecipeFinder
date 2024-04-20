@@ -7,6 +7,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import html2pdf from 'html2pdf.js';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 function SearchRecipe() {
   const [recipes, setRecipes] = useState([]);
@@ -50,27 +52,50 @@ function SearchRecipe() {
 
   const recipeSearch = async () => {
     setLoading(true); // Set loading to true when fetching data
-
-    const options = {
-      method: 'GET',
-      url: 'https://food-recipes-with-images.p.rapidapi.com/',
-      params: { q: searchTerm },
-      headers: {
-        'X-RapidAPI-Key': 'e38190e3edmsh89073924e45455cp174847jsn0b69402f38d8',
-        'X-RapidAPI-Host': 'food-recipes-with-images.p.rapidapi.com'
+  
+    // Show "Please wait" toast message
+    const waitToastId = toast.promise(
+      new Promise((resolve, reject) => {
+        const options = {
+          method: 'GET',
+          url: 'https://food-recipes-with-images.p.rapidapi.com/',
+          params: { q: searchTerm },
+          headers: {
+            'X-RapidAPI-Key': process.env.REACT_APP_RAPIDAPI_KEY,
+            'X-RapidAPI-Host': 'food-recipes-with-images.p.rapidapi.com'
+          }
+        };
+  
+        axios.request(options)
+          .then(response => {
+            setRecipes(response.data.d);
+            resolve(); // Resolve the promise when data fetching is successful
+          })
+          .catch(error => {
+            console.error(error);
+            reject(error); // Reject the promise if an error occurs during data fetching
+          })
+          .finally(() => {
+            setLoading(false); // Set loading back to false when data fetching completes
+          });
+      }),
+      {
+        pending: 'Please wait...',
+        success: 'Data fetched successfully!',
+        error: 'Failed to fetch data!',
+        autoClose: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        position: "top-center" // Position the toast at the top center
       }
-    };
-
-    try {
-      const response = await axios.request(options);
-      response && setRecipes(response.data.d);
-      console.log(response.data.d);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false); // Set loading back to false when data fetching completes
-    }
+    );
+  
+    // Dismiss the "Please wait" toast after 5 seconds (adjust as needed)
+    setTimeout(() => {
+      toast.dismiss(waitToastId);
+    }, 5000);
   };
+  
 
   const downloadRecipe = (recipe) => {
     const ingredientList = Object.values(recipe.Ingredients).map((ingredient, i) => `<li key=${i}>${ingredient}</li>`).join('');
@@ -151,6 +176,9 @@ function SearchRecipe() {
               </CardActions>
             </Card>
           ))}
+
+<ToastContainer position="top-center"/>
+
         </div>
       </div>
     </>
